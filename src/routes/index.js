@@ -9,7 +9,6 @@ import Blogs from '../pages/Blogs'
 import Comments from '../pages/Comments'
 import Entries from '../pages/Entries'
 import PageNotFound from '../pages/PageNotFound'
-import Counter from '../components/Counter'
 
 const routes = (
   <Switch>
@@ -17,7 +16,6 @@ const routes = (
     <Route exact path="/" component={Blogs} />
     <Route path="/comments" component={Comments} />
     <Route path="/entries" component={Entries} />
-    <Route path="/counter" component={Counter} />
     <Route component={PageNotFound} />
   </Switch>
 )
