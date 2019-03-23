@@ -24,7 +24,6 @@ const renderPaginationBar = (paginationData) => {
   return <PaginationBar {...paginationData} />
 }
 
-// @TODO: Anthony - so far, this isn't connected, might need to refactor this into the components folder
 function Page(props) {
   const { location, children, paginationData } = props;
   const paginationBar = renderPaginationBar(paginationData)
