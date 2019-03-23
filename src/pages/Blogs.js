@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
-import Page from '../connected-components/Page';
+import Page from '../components/Page';
 import ListViewTable from '../components/ListViewTable'
 
 import { listBlogs } from '../actions'
