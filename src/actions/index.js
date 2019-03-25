@@ -2,34 +2,25 @@ import axios from 'axios'
 
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-export const FETCH_BLOG = 'FETCH_BLOG'
-export const LIST_BLOGS = 'LIST_BLOGS'
-// const ERROR = 'ERROR'
+import { LIST_BLOGS } from './blogActions'
+import { LIST_ENTRIES } from './entryActions'
 
-export function fetchBlog(id) {
+export function initializeStoreFromApi() {
   return async (dispatch) => {
     dispatch(showLoading())
     try {
-      const response = await axios.get(`http://localhost:8000/blogs/${id}`)
-      dispatch({ type: FETCH_BLOG, data: response.data })
+      const blogData = await axios.get('http://localhost:8000/blogs')
+      const entriesData = await axios.get('http://localhost:8000/entries')
+      console.log('ENTRIES_DATA', entriesData)
+      dispatch({ type: LIST_BLOGS, data: blogData.data })
+      dispatch({ type: LIST_ENTRIES, data: entriesData.data })
     } catch (error) {
       // dispatch({ type: ERROR, error: '' })
-      console.log(error)
+      console.log('ERROR', error)
     }
     dispatch(hideLoading())
   }
 }
 
-export function listBlogs() {
-  return async (dispatch) => {
-    dispatch(showLoading())
-    try {
-      const response = await axios.get('http://localhost:8000/blogs')
-      dispatch({ type: LIST_BLOGS, data: response.data })
-    } catch (error) {
-      // dispatch({ type: ERROR, error: '' })
-      console.log(error)
-    }
-    dispatch(hideLoading())
-  }
-}
+export * from './blogActions'
+export * from './entryActions'

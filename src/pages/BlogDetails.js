@@ -24,16 +24,15 @@ function BlogDetails(props) {
   const { match = {} } = props
   const { params = {} } = match
   const [blog, setBlog] = useState(props.blogData.data)
-  console.log('PROPS', props)
   useEffect(() => {
     props.fetchBlog(params.id)
     setBlog(props.blogData.data)
   }, [Object.keys(props.blogData.data || {}).length])
 
   return (
-    <div>
+    <Page {...props}>
       <h1>Detail View!</h1>
-    </div>
+    </Page>
   )
 }
 
