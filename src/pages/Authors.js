@@ -53,7 +53,7 @@ function Authors(props) {
 Authors.propTypes = propTypes
 Authors.defaultProps = defaultProps
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   authors: state.get('authors').authors
 })
 

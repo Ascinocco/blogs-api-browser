@@ -21,7 +21,8 @@ const defaultProps = {
 
 const validLinkKeys = [
   'name',
-  'headline'
+  'headline',
+  'body'
 ]
 
 const isTag = key => key === 'tags'
