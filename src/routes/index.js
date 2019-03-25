@@ -6,6 +6,7 @@ import {
 
 import Authors from '../pages/Authors'
 import Blogs from '../pages/Blogs'
+import BlogDetails from '../pages/BlogDetails';
 import Comments from '../pages/Comments'
 import Entries from '../pages/Entries'
 import PageNotFound from '../pages/PageNotFound'
@@ -16,6 +17,7 @@ const routes = (
     <Route exact path="/" component={Blogs} />
     <Route path="/comments" component={Comments} />
     <Route path="/entries" component={Entries} />
+    <Route path="/blogs/:id" component={BlogDetails} />
     <Route component={PageNotFound} />
   </Switch>
 )
