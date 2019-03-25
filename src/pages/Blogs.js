@@ -53,16 +53,6 @@ const formatBlogData = (blogData) => {
   }
 }
 
-const formatPaginationData = (blogData) => {
-  const { links = {}, meta = {} } = blogData
-  const { pagination = {} } = meta
-
-  return {
-    links,
-    pagination
-  }
-}
-
 function Blogs(props) {
   const [blogData, setBlogData] = useState(props.blogData)
 
@@ -72,13 +62,13 @@ function Blogs(props) {
   }, [props.blogData.data.length])
 
   const formattedBlogs = blogData.data.map(blog => formatBlogData(blog))
-  const formattedPaginationData = formatPaginationData(blogData)
 
   return (
-    <Page {...props} paginationData={formattedPaginationData}>
+    <Page {...props} paginationData={{ links: blogData.links, meta: blogData.meta }}>
       <h1>Blogs</h1>
       <ListViewTable
         headings={headings}
+        resourceName={'blogs'}
         rows={formattedBlogs}
         rowKeys={rowKeys}
       />
