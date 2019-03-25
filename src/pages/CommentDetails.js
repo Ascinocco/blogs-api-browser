@@ -1,10 +1,13 @@
+import isEmpty from 'lodash.isempty'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 
 import Page from '../components/Page'
+
+import { initializeStoreFromApi } from '../actions'
 
 const propTypes = {
   comment: PropTypes.object,
@@ -18,31 +21,55 @@ const defaultProps = {
   writer: {}
 }
 
-function CommentDetails(props) {
-  const { comment, writer } = props
+class CommentDetails extends Component {
+  constructor(props) {
+    super(props)
 
-  const writerDetails = `${writer.name}, ${writer.email}`
-  const writerMarkup = writer.id ? (
-    <Link to={`/authors/${writer.id}`}>
-      <li>{writerDetails}</li>
-    </Link>
-  ) : (
-    <li>{writerDetails}</li>
-  )
+    this.state = {
+      comment: {}
+    }
+  }
 
-  return (
-    <Page {...props} >
-      <h1>Comment #{comment.id}</h1>
-      <ul>
-        <li>{comment.attributes.body}</li>
-      </ul>
+  componentDidUpdate(prevProps) {
+    if (Object.keys(prevProps.comment).length !== Object.keys(this.props.comment).length) {
+      this.setState({ comment: this.props.comment })
+    }
+  }
 
-      <h1>Writer</h1>
-      <ul>
-        {writerMarkup}
-      </ul>
-    </Page>
-  )
+  render() {
+    const { writer } = this.props
+    const { comment } = this.state
+    if (isEmpty(comment)) {
+     return (
+       <div>
+         <h1>Loading...</h1>
+       </div>
+     )
+   }
+ 
+   const writerDetails = `${writer.name}, ${writer.email}`
+   const writerMarkup = writer.id ? (
+     <Link to={`/authors/${writer.id}`}>
+       <li>{writerDetails}</li>
+     </Link>
+   ) : (
+     <li>{writerDetails}</li>
+   )
+ 
+   return (
+     <Page {...this.props} >
+       <h1>Comment #{comment.id}</h1>
+       <ul>
+         <li>{comment.attributes.body}</li>
+       </ul>
+ 
+       <h1>Writer</h1>
+       <ul>
+         {writerMarkup}
+       </ul>
+     </Page>
+   )
+  }
 }
 
 CommentDetails.propTypes = propTypes
@@ -52,7 +79,10 @@ const mapStateToProps = (state, props) => {
   const { match = {} } = props
   const { params = {} } = match
   const comments = state.get('comments').comments
+  if (!comments) return { comment: {}, writer: {} }
+
   const comment = comments.data.find(currentComment => currentComment.id === params.id)
+
   const writerId = comment.relationships.writer.data.id
   const authors = state.get('authors').authors
   const commentWriter = authors.data.find(author => author.id === writerId)
@@ -66,4 +96,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, null)(withRouter(CommentDetails))
+export default connect(mapStateToProps, { initializeStoreFromApi })(withRouter(CommentDetails))
