@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import Page from '../components/Page'
 import DetailView from '../components/DetailView'
+import formatBlogData from '../lib/formatBlogData'
 
 import { fetchBlog } from '../actions'
 
@@ -21,17 +22,9 @@ const defaultProps = {
 }
 
 function BlogDetails(props) {
-  const { match = {} } = props
-  const { params = {} } = match
-  const [blog, setBlog] = useState(props.blogData.data)
-  useEffect(() => {
-    props.fetchBlog(params.id)
-    setBlog(props.blogData.data)
-  }, [Object.keys(props.blogData.data || {}).length])
-
   return (
     <Page {...props}>
-      <h1>Detail View!</h1>
+      <DetailView {...props.blogData} />
     </Page>
   )
 }
@@ -39,8 +32,8 @@ function BlogDetails(props) {
 BlogDetails.propTypes = propTypes
 BlogDetails.defaultProps = defaultProps
 
-const mapStateToProps = state => ({
-  blogData: state.get('blogs').blog
+const mapStateToProps = (state, props) => ({
+  blogData: formatBlogData(state, props)
 })
 
 export default connect(mapStateToProps, { fetchBlog })(withRouter(BlogDetails))
