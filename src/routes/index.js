@@ -9,6 +9,7 @@ import Blogs from '../pages/Blogs'
 import BlogDetails from '../pages/BlogDetails';
 import Comments from '../pages/Comments'
 import Entries from '../pages/Entries'
+import EntryDetails from '../pages/EntryDetails'
 import PageNotFound from '../pages/PageNotFound'
 
 const routes = (
@@ -16,6 +17,7 @@ const routes = (
     <Route path="/authors" component={Authors} />
     <Route exact path="/" component={Blogs} />
     <Route path="/comments" component={Comments} />
+    <Route path="/entries/:id" component={EntryDetails} />
     <Route path="/entries" component={Entries} />
     <Route path="/blogs/:id" component={BlogDetails} />
     <Route component={PageNotFound} />

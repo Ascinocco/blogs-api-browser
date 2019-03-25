@@ -16,8 +16,6 @@ const defaultProps = {
   entries: []
 }
 
-
-
 const renderEntries = (entries) => {
   if (isEmpty(entries)) {
     return (

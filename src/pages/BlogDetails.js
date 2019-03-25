@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import Page from '../components/Page'
-import DetailView from '../components/DetailView'
+import BlogDetailView from '../components/BlogDetailView'
 import formatBlogData from '../lib/formatBlogData'
 
 import { fetchBlog } from '../actions'
@@ -24,7 +24,7 @@ const defaultProps = {
 function BlogDetails(props) {
   return (
     <Page {...props}>
-      <DetailView {...props.blogData} />
+      <BlogDetailView {...props.blogData} />
     </Page>
   )
 }
