@@ -3,7 +3,6 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { Container, Row, Col } from 'react-bootstrap'
 
 import Page from '../components/Page'
 
@@ -21,7 +20,7 @@ const defaultProps = {
 
 function CommentDetails(props) {
   const { comment, writer } = props
-  console.log('props', props)
+
   const writerDetails = `${writer.name}, ${writer.email}`
   const writerMarkup = writer.id ? (
     <Link to={`/authors/${writer.id}`}>
@@ -57,12 +56,10 @@ const mapStateToProps = (state, props) => {
   const writerId = comment.relationships.writer.data.id
   const authors = state.get('authors').authors
   const commentWriter = authors.data.find(author => author.id === writerId)
-  console.log('commentWriter', commentWriter)
   const writerData = commentWriter ?
     { id: commentWriter.id, ...commentWriter.attributes } :
     { name: 'unknown', email: 'unknown' }
 
-  console.log('writerData', writerData)
   return {
     comment,
     writer: writerData

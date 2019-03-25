@@ -83,7 +83,6 @@ const renderEntries = (entries) => {
 }
 
 function DetailView(props) {
-  console.log(props)
   const { attributes, entries } = props
   const renderedEntries = renderEntries(entries)
   return (

@@ -81,8 +81,6 @@ const mapStateToProps = (state, props) => {
     authors: authors.data.filter(author => currentEntry.relationships.authors.data.find(entryAuthor => entryAuthor.id === author.id))
   }
 
-  console.log('authors', authors)
-  console.log('mappedEntry', mappedEntry)
   return {
     entry: mappedEntry
   }

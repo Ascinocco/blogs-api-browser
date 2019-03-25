@@ -33,9 +33,8 @@ const formatCommentData = comment => ({
 
 function Comments(props) {
   const { comments } = props
-
-  console.log('props', props)
   const formattedComments = comments.data.map(comment => formatCommentData(comment))
+
   return (
     <Page {...props} paginationData={{ links: comments.links, meta: comments.meta }}>
       <h1>Comments</h1>
