@@ -23,7 +23,7 @@ const defaultProps = {
 function AuthorDetails(props) {
   const { author } = props
   const { attributes, entries } = author
-  console.log('PROPS', props)
+
   const entryItems = entries.map(entry => (
     <li key={`author-${author.id}-entry-${entry.id}`}>
       <Link to={`/entries/${entry.id}`}>{entry.attributes.headline}</Link>
