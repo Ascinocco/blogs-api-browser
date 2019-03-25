@@ -7,17 +7,14 @@ import { Container, Row, Col } from 'react-bootstrap'
 
 import Page from '../components/Page'
 
-import { fetchBlog } from '../actions'
-
 const propTypes = {
   author: PropTypes.object,
-  fetchBlog: PropTypes.isRequired,
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 }
 
 const defaultProps = {
-  blogData: { data: {} }
+  author: { data: [] }
 }
 
 function AuthorDetails(props) {
@@ -75,4 +72,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, { fetchBlog })(withRouter(AuthorDetails))
+export default connect(mapStateToProps, null)(withRouter(AuthorDetails))
