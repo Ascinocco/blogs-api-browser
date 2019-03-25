@@ -53,6 +53,7 @@ function Entries(props) {
 }
 
 Entries.propTypes = propTypes
+Entries.defaultProps = defaultProps
 
 const mapStateToProps = (state) => ({
   entries: state.get('entries').entries

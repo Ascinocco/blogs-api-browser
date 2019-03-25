@@ -20,7 +20,7 @@ const defaultProps = {
   blogData: { data: {} }
 }
 
-function BlogDetails(props) {
+function EntryDetails(props) {
   const { entry } = props
   const { attributes } = entry
   const entryAttributes = Object.keys(attributes).map(key => (
@@ -57,8 +57,8 @@ function BlogDetails(props) {
   )
 }
 
-BlogDetails.propTypes = propTypes
-BlogDetails.defaultProps = defaultProps
+EntryDetails.propTypes = propTypes
+EntryDetails.defaultProps = defaultProps
 
 const mapStateToProps = (state, props) => {
   const { match = {} } = props
@@ -76,4 +76,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, { fetchBlog })(withRouter(BlogDetails))
+export default connect(mapStateToProps, { fetchBlog })(withRouter(EntryDetails))
