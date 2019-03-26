@@ -16,7 +16,9 @@ import {
 const propTypes = {
   entry: PropTypes.object,
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  startLoading: PropTypes.func.isRequired,
+  stopLoading: PropTypes.func.isRequired
 }
 
 const defaultProps = {
@@ -31,8 +33,6 @@ class EntryDetails extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log('next props', nextProps)
-    console.log('this props', this.props)
     const entryChanged =  Object.keys(this.props.entry).length !== Object.keys(nextProps.entry).length
     if (entryChanged) {
       this.props.stopLoading()

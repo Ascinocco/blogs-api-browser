@@ -16,7 +16,9 @@ import {
 const propTypes = {
   author: PropTypes.object,
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  startLoading: PropTypes.func.isRequired,
+  stopLoading: PropTypes.func.isRequired
 }
 
 const defaultProps = {
