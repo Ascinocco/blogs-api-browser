@@ -7,13 +7,18 @@ import { withRouter, Link } from 'react-router-dom'
 
 import Page from '../components/Page'
 
-import { initializeStoreFromApi } from '../actions'
+import {
+  startLoading,
+  stopLoading
+} from '../actions'
 
 const propTypes = {
   comment: PropTypes.object,
   writer: PropTypes.object,
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  startLoading: PropTypes.func.isRequired,
+  stopLoading: PropTypes.func.isRequired
 }
 
 const defaultProps = {
@@ -22,29 +27,27 @@ const defaultProps = {
 }
 
 class CommentDetails extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      comment: {}
+  componentDidMount() {
+    if (isEmpty(this.props.comment)) {
+      this.props.startLoading()
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (Object.keys(prevProps.comment).length !== Object.keys(this.props.comment).length) {
-      this.setState({ comment: this.props.comment })
+  shouldComponentUpdate(nextProps) {
+    const commentsChanged =  Object.keys(this.props.comment).length !== Object.keys(nextProps.comment).length
+    const writerChanged = Object.keys(this.props.writer).length !== Object.keys(nextProps.writer).length
+    if (commentsChanged || writerChanged) {
+      this.props.stopLoading()
+      return true
     }
+    return false
   }
 
   render() {
-    const { writer } = this.props
-    const { comment } = this.state
+    const { comment, writer } = this.props
+    console.log('comment', comment)
     if (isEmpty(comment)) {
-     return (
-       <div>
-         <h1>Loading...</h1>
-       </div>
-     )
+     return <div />
    }
  
    const writerDetails = `${writer.name}, ${writer.email}`
@@ -83,7 +86,7 @@ const mapStateToProps = (state, props) => {
 
   const comment = comments.data.find(currentComment => currentComment.id === params.id)
 
-  const writerId = comment.relationships.writer.data.id
+  const writerId = (comment.relationships.writer.data || {}).id
   const authors = state.get('authors').authors
   const commentWriter = authors.data.find(author => author.id === writerId)
   const writerData = commentWriter ?
@@ -96,4 +99,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, { initializeStoreFromApi })(withRouter(CommentDetails))
+export default connect(mapStateToProps, { startLoading, stopLoading })(withRouter(CommentDetails))

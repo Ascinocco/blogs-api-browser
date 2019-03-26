@@ -7,6 +7,18 @@ import { LIST_BLOGS } from './blogActions'
 import { LIST_COMMENTS } from './commentActions'
 import { LIST_ENTRIES } from './entryActions'
 
+export function startLoading() {
+  return async (dispatch) => {
+    dispatch(showLoading())
+  }
+}
+
+export function stopLoading() {
+  return async (dispatch) => {
+    dispatch(hideLoading())
+  }
+}
+
 export function initializeStoreFromApi() {
   return async (dispatch) => {
     dispatch(showLoading())
