@@ -50,12 +50,20 @@ const getEntries = (state, blogId) => {
 }
 
 const formatBlogData = (state = {}, props) => {
-  const blogs = state.get('blogs').blogs
-  if (isEmpty(blogs)) return {}
+  const blogsData = state.get('blogs').blogs
+  const entriesData = state.get('entries').entries
+  const commentsData = state.get('comments').comments
+  const authorsData = state.get('authors').authors
+  const missingRequiredData = (
+    isEmpty(blogsData) || isEmpty(entriesData) ||
+    isEmpty(authorsData) || isEmpty(commentsData)
+  )
+
+  if (missingRequiredData) return {}
 
   const { match = {} } = props
   const { params = {} } = match
-  const blog = blogs.data.find(currentBlog => currentBlog.id === params.id)
+  const blog = blogsData.data.find(currentBlog => currentBlog.id === params.id)
   const entries = getEntries(state, blog.id)
 
   return {

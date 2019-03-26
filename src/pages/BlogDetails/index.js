@@ -1,19 +1,31 @@
 import isEmpty from 'lodash.isempty'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Component } from 'react'
 
 import { Container, Row, Col } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
 
-import styles from './DetailView.module.css'
+import Page from '../../components/Page'
+import formatBlogData from '../../lib/formatBlogData'
+
+import styles from './BlogDetails.module.css'
+
+import {
+  startLoading,
+  stopLoading
+} from '../../actions'
 
 const propTypes = {
-  attributes: PropTypes.object,
-  entries: PropTypes.array,
+  blogData: PropTypes.object,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  startLoading: PropTypes.func.isRequired,
+  stopLoading: PropTypes.func.isRequired
 }
 
 const defaultProps = {
-  attributes: {},
-  entries: []
+  blogData: {}
 }
 
 const renderEntries = (entries) => {
@@ -27,12 +39,16 @@ const renderEntries = (entries) => {
 
   return entries.map((entry) => {
     const { author, attributes, comments } = entry
-  
+
     const authorDetails = (
       <div>
         <h5>Author</h5>
         <ul>
-          <li>{author.attributes.name}: {author.attributes.email}</li>
+          <li>
+            <Link to={`/authors/${author.id}`}>
+              {author.attributes.name}: {author.attributes.email}
+            </Link>
+          </li>
         </ul>
       </div>
     )
@@ -82,18 +98,46 @@ const renderEntries = (entries) => {
   })
 }
 
-function DetailView(props) {
-  const { attributes, entries } = props
-  const renderedEntries = renderEntries(entries)
-  return (
-    <div>
-      <h1>{attributes.name}</h1>
-      {renderedEntries}
-    </div>
-  )
+class BlogDetails extends Component {
+  componentDidMount() {
+    if (isEmpty(this.props.blogData)) {
+      this.props.startLoading()
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const blogDataChanged =  Object.keys(this.props.blogData).length !== Object.keys(nextProps.blogData).length
+    if (blogDataChanged) {
+      this.props.stopLoading()
+      return true
+    }
+    return false
+  }
+
+  render() {
+    const { blogData } = this.props
+    const { attributes, entries } = blogData
+    console.log('blogData', blogData)
+    if (isEmpty(blogData)) {
+      return <div />
+    }
+
+    const renderedEntries = renderEntries(entries)
+
+    return (
+      <Page {...this.props}>
+        <h1>{attributes.name}</h1>
+        {renderedEntries}
+      </Page>
+    )
+  }
 }
 
-DetailView.propTypes = propTypes
-DetailView.defaultProps = defaultProps
+BlogDetails.propTypes = propTypes
+BlogDetails.defaultProps = defaultProps
 
-export default DetailView
+const mapStateToProps = (state, props) => ({
+  blogData: formatBlogData(state, props)
+})
+
+export default connect(mapStateToProps, { startLoading, stopLoading })(withRouter(BlogDetails))
