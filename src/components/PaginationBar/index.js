@@ -54,8 +54,8 @@ const getPaginationItems = (pagination) => {
 function PaginationBar(props) {
   const { links, pagination } = props
   const nonNumberedLinks = getNonNumberedLinks(links)
-  console.log(pagination)
   const items = getPaginationItems(pagination)
+
   return (
     <Pagination>
       {nonNumberedLinks.prevLink}

@@ -9,6 +9,8 @@ import { Provider } from 'react-redux'
 import configureStore, { history } from './configureStore'
 import routes from './routes'
 
+import App from './components/App'
+
 import './index.css'
 import * as serviceWorker from './serviceWorker'
 
@@ -26,15 +28,11 @@ const render = () => {
     <>
       <AppContainer>
         <Provider store={store}>
-          {app}
+          <App>
+            {app}
+          </App>
         </Provider>
       </AppContainer>
-      <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossOrigin="anonymous"
-      />
     </>
   ), document.getElementById('root'))
 }

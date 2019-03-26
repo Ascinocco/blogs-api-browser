@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 
 import { LIST_BLOGS } from '../actions'
 
-export default function blogsReducer(state = {}, action) {
+export default function blogReducer(state = {}, action) {
   const immutableState = Immutable.fromJS(state)
   switch(action.type) {
     case LIST_BLOGS:

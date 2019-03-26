@@ -7,6 +7,7 @@ import { Table } from 'react-bootstrap'
 const propTypes = {
   headings: PropTypes.array,
   rowKeys: PropTypes.array,
+  resourceName: PropTypes.string.isRequired,
   rows: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string
   })),
@@ -18,10 +19,16 @@ const defaultProps = {
   rows: [],
 }
 
-const isTag = key => key === 'tags'
-const isLink = (key, rowData) => key === 'name' && rowData.selfLink
+const validLinkKeys = [
+  'name',
+  'headline',
+  'body'
+]
 
-const renderRow = (rowData, rowKeys) => rowKeys.map((key) => {
+const isTag = key => key === 'tags'
+const isLink = key => validLinkKeys.find(linkKey => key === linkKey)
+
+const renderRow = (rowData, rowKeys, resourceName) => rowKeys.map((key) => {
   const value = rowData[key]
   let finalValue = value
 
@@ -31,7 +38,7 @@ const renderRow = (rowData, rowKeys) => rowKeys.map((key) => {
 
   if (isLink(key, rowData)) {
     finalValue = (
-      <Link to={`blogs/${rowData.id}`}>
+      <Link to={`${resourceName}/${rowData.id}`}>
         {value}
       </Link>
     )
@@ -45,11 +52,11 @@ const renderRow = (rowData, rowKeys) => rowKeys.map((key) => {
 })
 
 function ListViewTable(props) {
-  const { headings, rows, rowKeys } = props
+  const { headings, resourceName, rows, rowKeys } = props
 
   const mappedHeadings = headings.map(heading => <th key={`heading-${heading}`}>{heading}</th>)
   const mappedRows = rows.map((rowData) => {
-    const row = renderRow(rowData, rowKeys)
+    const row = renderRow(rowData, rowKeys, resourceName)
     return <tr key={`row-${rowData.id}`}>{row}</tr>
   })
 

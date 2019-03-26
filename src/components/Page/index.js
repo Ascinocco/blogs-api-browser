@@ -19,9 +19,20 @@ const defaultProps = {
   paginationData: {}
 }
 
+const formatPaginationData = (blogData) => {
+  const { links = {}, meta = {} } = blogData
+  const { pagination = {} } = meta
+
+  return {
+    links,
+    pagination
+  }
+}
+
 const renderPaginationBar = (paginationData) => {
   if (isEmpty(paginationData)) return null
-  return <PaginationBar {...paginationData} />
+  const data = formatPaginationData(paginationData)
+  return <PaginationBar {...data} />
 }
 
 function Page(props) {
