@@ -2,10 +2,12 @@ import axios from 'axios'
 
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-import { LIST_AUTHORS } from './authorActions'
 import { LIST_BLOGS } from './blogActions'
-import { LIST_COMMENTS } from './commentActions'
-import { LIST_ENTRIES } from './entryActions'
+
+export const LIST_AUTHORS = 'LIST_AUTHORS'
+export const LIST_COMMENTS = 'LIST_COMMENTS'
+export const LIST_ENTRIES = 'LIST_ENTRIES'
+
 
 export function startLoading() {
   return async (dispatch) => {
@@ -34,14 +36,14 @@ export function initializeStoreFromApi() {
       dispatch({ type: LIST_COMMENTS, data: commentsData.data })
 
     } catch (error) {
-      // dispatch({ type: ERROR, error: '' })
+      // Here's where I'd catch an error and dispatch an error action
+      // I would use the Page component to recieve that error and display it in a generic location
+      // there could also be different types of styling based on the messages
+      // dispatch({ type: ERROR, error: 'Some message' })
       console.log('ERROR', error)
     }
     dispatch(hideLoading())
   }
 }
 
-export * from './authorActions'
 export * from './blogActions'
-export * from './commentActions'
-export * from './entryActions'

@@ -2,23 +2,7 @@ import axios from 'axios'
 
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-export const FETCH_BLOG = 'FETCH_BLOG'
 export const LIST_BLOGS = 'LIST_BLOGS'
-// const ERROR = 'ERROR'
-
-export function fetchBlog(id) {
-  return async (dispatch) => {
-    dispatch(showLoading())
-    try {
-      const response = await axios.get(`http://localhost:8000/blogs/${id}`)
-      dispatch({ type: FETCH_BLOG, data: response.data })
-    } catch (error) {
-      // dispatch({ type: ERROR, error: '' })
-      console.log('ERROR', error)
-    }
-    dispatch(hideLoading())
-  }
-}
 
 export function listBlogs() {
   return async (dispatch) => {
@@ -27,7 +11,10 @@ export function listBlogs() {
       const response = await axios.get('http://localhost:8000/blogs')
       dispatch({ type: LIST_BLOGS, data: response.data })
     } catch (error) {
-      // dispatch({ type: ERROR, error: '' })
+      // Here's where I'd catch an error and dispatch an error action
+      // I would use the Page component to recieve that error and display it in a generic location
+      // there could also be different types of styling based on the messages
+      // dispatch({ type: ERROR, error: 'Some message' })
       console.log('ERROR', error)
     }
     dispatch(hideLoading())
