@@ -45,7 +45,6 @@ class CommentDetails extends Component {
 
   render() {
     const { comment, writer } = this.props
-    console.log('comment', comment)
     if (isEmpty(comment)) {
      return <div />
    }

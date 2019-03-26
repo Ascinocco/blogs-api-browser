@@ -117,7 +117,6 @@ class BlogDetails extends Component {
   render() {
     const { blogData } = this.props
     const { attributes, entries } = blogData
-    console.log('blogData', blogData)
     if (isEmpty(blogData)) {
       return <div />
     }
